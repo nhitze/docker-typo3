@@ -1,5 +1,5 @@
 FROM php:5.6-apache
-MAINTAINER Martin Helmich <typo3@martin-helmich.de>
+MAINTAINER Nils Hitze <hitze@pharma4u.de>
 
 # Install TYPO3
 RUN apt-get update &&\
@@ -25,19 +25,11 @@ RUN apt-get update &&\
         libmcrypt-dev \
         libpng12-dev \
         zlib1g-dev && \
+        pecl install apcu-beta \
+        && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
     rm -rf /var/lib/apt/lists/* /usr/src/*
 
 RUN cd /var/www/html && \
-    wget -O - https://get.typo3.org/6.2 | tar -xzf - && \
-    ln -s typo3_src-* typo3_src && \
-    ln -s typo3_src/index.php && \
-    ln -s typo3_src/typo3 && \
-    ln -s typo3_src/_.htaccess .htaccess && \
-    mkdir typo3temp && \
-    mkdir typo3conf && \
-    mkdir fileadmin && \
-    mkdir uploads && \
-    touch FIRST_INSTALL && \
     chown -R www-data. .
 
 # Configure volumes
