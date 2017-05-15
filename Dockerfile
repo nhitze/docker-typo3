@@ -25,15 +25,14 @@ RUN apt-get update &&\
         libmcrypt-dev \
         libpng12-dev \
         zlib1g-dev && \
-        pecl install apcu-beta \
-        && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini \
+    pecl install apcu-4.0.11 && \
+        echo 'extension=apcu.so' > /usr/local/etc/php/conf.d/apcu.ini && \
+        echo '<?php phpinfo();' > /var/www/html/index.php && \
     rm -rf /var/lib/apt/lists/* /usr/src/*
 
 RUN cd /var/www/html && \
     chown -R www-data. .
 
 # Configure volumes
-VOLUME /var/www/html/fileadmin
-VOLUME /var/www/html/typo3conf
-VOLUME /var/www/html/typo3temp
-VOLUME /var/www/html/uploads
+
+VOLUME /var/www/html/
